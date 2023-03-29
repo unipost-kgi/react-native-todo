@@ -28,8 +28,8 @@ module.exports = {
       },
     },
   },
-  indent: ['error', 2],
   rules: {
+    indent: 'off',
     'react/jsx-filename-extension': [
       'warn',
       {
@@ -39,10 +39,14 @@ module.exports = {
     'linebreak-style': 0,
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     'no-confusing-arrow': 'off',
     'implicit-arrow-linebreak': 'off',
+    'function-paren-newline': 'off',
+    'comma-dangle': ['error', 'only-multiline'],
+    'no-undef': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

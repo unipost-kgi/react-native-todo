@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
 
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import AddTodo from './src/components/AddTodo';
+import AddTodo from './components/AddTodo';
 
-import DateHead from './src/components/DateHead';
-import Empty from './src/components/Empty';
-import TodoList from './src/components/TodoList';
+import DateHead from './components/DateHead';
+import Empty from './components/Empty';
+import TodoList from './components/TodoList';
+import todoStorage from './storages/todosStorage';
 
 const today = new Date();
 
@@ -25,6 +26,14 @@ export default function App() {
     },
   ]);
 
+  useEffect(() => {
+    todoStorage.get().then(setTodos).catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    todoStorage.set(todos).catch(console.error);
+  }, [todos]);
+
   const onInsert = (text: string) => {
     const nextId = todos.length > 0 ? Math.max(...todos.map((todo) => todo.id)) + 1 : 1;
     const todo = {
@@ -32,11 +41,19 @@ export default function App() {
       text,
       done: false,
     };
+
     setTodos(todos.concat(todo));
   };
 
   const onToggle = (id: number) => {
-    const nextTodos = todos.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo));
+    const nextTodos = todos.map((todo) =>
+      todo.id === id
+        ? {
+            ...todo,
+            done: !todo.done,
+          }
+        : todo,
+    );
     setTodos(nextTodos);
   };
 
